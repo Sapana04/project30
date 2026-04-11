@@ -1,24 +1,24 @@
-name: autodeploy to S3
+name: Deploy to S3
 
 on:
   push:
     branches:
-      - master   # (तुझं branch master आहे)
+      - master
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-     - name: Checkout code
+    - name: Checkout code
       uses: actions/checkout@v4
 
-     - name: Configure AWS credentials
-       uses: aws-actions/configure-aws-credentials@v4
-   with:
-      aws-access-key-id: ${{ secrets.AWS_KEY }}
-      aws-secret-access-key: ${{ secrets.AWS_SECRET }}
-      aws-region: us-east-1
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET }}
+        aws-region: us-east-1   # N. Virginia
 
-      name: Upload to S3
-      run: aws s3 sync . s3://git-aws-bucket-1 --delete
+    - name: Deploy to S3
+      run: aws s3 sync . s3://YOUR-BUCKET-NAME --delete
